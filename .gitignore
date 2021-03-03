@@ -1,1 +1,3 @@
-
+*.log
+webdriverPath.py
+__pycache__/
