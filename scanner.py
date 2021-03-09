@@ -21,11 +21,11 @@ def getDatetimeFromReturnValue(input):
 def main():
 
     while(True):
-        print("----------------------------------")
-        print("Running scan...")
+        print("----------------------------------", flush=True)
+        print("Running scan...", flush=True)
         #returned value format
         #{"current_price" : currentPrice, "last_updated" : last_updated, "next_update" : nextUpdate}
-        process = subprocess.run("python getPrice.py", capture_output=True, text=True)
+        process = subprocess.run(["python", "getPrice.py"], capture_output=True, text=True)
         returnedValues = eval(process.stdout)
         #datetime format (year, month, day, 24 hour, minute, second)
         
@@ -34,8 +34,8 @@ def main():
         print("Last update: " + returnedValues["last_updated"])
         print("Pausing until: " + nextUpdate.strftime("%Y/%m/%d") + ", " + nextUpdate.strftime('%H:%M:%S'), flush=True)
         pause.until(nextUpdate)
-        #pausing for 2 minutes to give the site time to refresh
-        pause.minutes(2) 
+        #pausing for 1 minute to give the site time to refresh
+        pause.minutes(1) 
 
 if __name__ == "__main__":
     main()

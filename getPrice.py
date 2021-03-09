@@ -3,10 +3,9 @@ from selenium.webdriver.common import by
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from webdriverPath import firefoxDriverPath
 
 
-driver = webdriver.Firefox(executable_path = firefoxDriverPath)
+driver = webdriver.Firefox()
 driver.get("https://theunderminejournal.com/#us/sargeras/item/171828")
 
 try:
