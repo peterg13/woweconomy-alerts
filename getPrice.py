@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 
-driver = webdriver.Firefox()
+driver = webdriver.Chrome()
 driver.get("https://theunderminejournal.com/#us/sargeras/item/171828")
 
 try:
@@ -25,4 +25,4 @@ try:
 
     
 finally:
-    driver.close()
+    driver.quit()
