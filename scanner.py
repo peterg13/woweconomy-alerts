@@ -1,10 +1,15 @@
 import subprocess
 import pause
-import datetime
+from datetime import datetime
 
+#converts the unix time to 24 hour time and date
+def getDatetimeFromReturnValue(unixTime):
 
-def getDatetimeFromReturnValue(input):
-    #splitDateAndTime [0]: "month/day/year [1]: hour:minute:second AM/PM"
+    newDatetime = datetime.fromtimestamp(unixTime)
+    print(newDatetime)
+
+    #-----------------------------------------------------------------
+    """ #splitDateAndTime [0]: "month/day/year [1]: hour:minute:second AM/PM"
     splitDateAndTime = input.split(", ")
     #splitDate [0]:month, [1]:day, [2]:year
     splitDate = splitDateAndTime[0].split("/")
@@ -16,7 +21,8 @@ def getDatetimeFromReturnValue(input):
     splitTime = splitTime.split(":")
     newDatetime = datetime.datetime(int(splitDate[2]), int(splitDate[0]), 
         int(splitDate[1]), int(splitTime[0]), int(splitTime[1]), int(splitTime[2]))
-    return newDatetime
+    return newDatetime """
+    #---------------------------------------------------------------------
 
 def main():
 
@@ -27,15 +33,15 @@ def main():
         #{"current_price" : currentPrice, "last_updated" : last_updated, "next_update" : nextUpdate}
         process = subprocess.run(["python", "getPrice.py"], capture_output=True, text=True)
         returnedValues = eval(process.stdout)
-        #datetime format (year, month, day, 24 hour, minute, second)
-        
-        nextUpdate = getDatetimeFromReturnValue(returnedValues["next_update"])
-        print("Laestrite Ore: " + returnedValues["current_price"], flush=True)
-        print("Last update: " + returnedValues["last_updated"])
-        print("Pausing until: " + nextUpdate.strftime("%Y/%m/%d") + ", " + nextUpdate.strftime('%H:%M:%S'), flush=True)
-        pause.until(nextUpdate)
-        #pausing for 1 minute to give the site time to refresh
-        pause.minutes(1) 
+        #the date returned is unix time and needs to be converted
+        next_update = datetime.fromtimestamp(returnedValues["next_update"])
+        last_updated = datetime.fromtimestamp(returnedValues["last_updated"])
+        print("Laestrite Ore: " + str(returnedValues["current_price"]), flush=True)
+        print("Last update: " + last_updated.strftime("%Y/%m/%d") + ", " + last_updated.strftime('%H:%M:%S'), flush=True)
+        print("Pausing until: " + next_update.strftime("%Y/%m/%d") + ", " + next_update.strftime('%H:%M:%S'), flush=True)
+        pause.until(next_update)
+        #pausing for 2 minute to give the site time to refresh
+        pause.minutes(2) 
 
 if __name__ == "__main__":
     main()
